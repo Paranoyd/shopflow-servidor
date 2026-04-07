@@ -3,7 +3,8 @@
    Sessão 4: Gerador de vendas em tempo real
    Corre no Render em: shopflow-servidor.onrender.com
    ═══════════════════════════════════════════════════ */
- 
+   
+   const ws = new WebSocket('wss://shopflow-servidor-ivqj.onrender.com/');
    const WebSocket = require('ws');
    const http      = require('http');
     
@@ -19,7 +20,7 @@
    const wss = new WebSocket.Server({ server: servidor });
     
    // ── Dados simulados da loja ───────────────────────────
-   const PRODUTOS = [
+   const produtos = [
        { nome: 'Portátil ShopFlow Pro 15',   preco: 899.99  },
        { nome: 'Portátil ShopFlow Ultra 13', preco: 1149.99 },
        { nome: 'Portátil ShopFlow Gaming 17',preco: 1599.99 },
