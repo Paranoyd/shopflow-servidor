@@ -1,0 +1,12 @@
+{
+  "name": "shopflow-servidor",
+  "version": "1.0.0",
+  "description": "Servidor WebSocket ShopFlow — UC00511",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "ws": "^8.0.0"
+  }
+}
