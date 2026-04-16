@@ -7,7 +7,7 @@ const server = http.createServer((req, res) => {
 });
 const wss = new WebSocket.Server({ server });
 
-const URL_PRODUTOS = 'https://raw.githubusercontent.com/Paranoyd/shopflow-dashboard/main/produtos.json';
+const URL_PRODUTOS = 'https://raw.githubusercontent.com/Paranoyd/shopflow-dashboard/refs/heads/main/data/produtos.json';
 
 let produtos = [];
 
