@@ -7,11 +7,26 @@ const server = http.createServer((req, res) => {
 });
 const wss = new WebSocket.Server({ server });
 
-const produtos = [
-    { nome: "Portátil", preco: 900 },
-    { nome: "Rato", preco: 20 },
-    { nome: "Monitor", preco: 200 }
-];
+const URL_PRODUTOS = 'https://raw.githubusercontent.com/Paranoyd/shopflow-dashboard/main/produtos.json';
+
+let produtos = [];
+
+// Função para atualizar os produtos a partir do GitHub
+async function carregarProdutosDoGithub() {
+    try {
+        const response = await fetch(URL_PRODUTOS);
+        if (!response.ok) throw new Error('Erro ao carregar ficheiro');
+        
+        produtos = await response.json();
+        console.log('Produtos carregados do repositório da dashboard.');
+    } catch (error) {
+        console.error('Erro ao procurar dados no GitHub:', error);
+        // Fallback: manter a lista vazia ou usar um backup local
+    }
+}
+
+// Chamar a função ao iniciar o servidor
+carregarProdutosDoGithub();
 
 function gerarVenda() {
     const p = produtos[Math.floor(Math.random() * produtos.length)];
