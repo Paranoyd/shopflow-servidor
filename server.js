@@ -29,12 +29,23 @@ async function carregarProdutosDoGithub() {
 carregarProdutosDoGithub();
 
 function gerarVenda() {
+    // Se a lista estiver vazia ou não tiver sido carregada, ignora esta execução
+    if (!produtos || produtos.length === 0) {
+        console.log("Aguardando carregamento de produtos...");
+        return; 
+    }
+
+    // A sua lógica de sorteio (exemplo):
     const p = produtos[Math.floor(Math.random() * produtos.length)];
-    return {
-        tipo: 'venda',
+
+    // Agora é seguro aceder a p.nome
+    const novaVenda = {
         produto: p.nome,
-        total: p.preco
+        valor: p.preco,
+        // ... restante código
     };
+
+    io.emit('novaVenda', novaVenda);
 }
 
 function broadcast(venda) {
@@ -46,7 +57,9 @@ function broadcast(venda) {
 }
 
 setInterval(() => {
-    broadcast(gerarVenda());
-}, 4000);
+    if (produtos.length > 0) {
+        gerarVenda();
+    }
+}, 5000);
 
 server.listen(process.env.PORT || 3000);
