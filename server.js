@@ -34,4 +34,4 @@ setInterval(() => {
     broadcast(gerarVenda());
 }, 4000);
 
-server.listen(3000);
+server.listen(process.env.PORT || 3000);
