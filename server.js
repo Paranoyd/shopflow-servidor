@@ -7,10 +7,18 @@ const server = http.createServer((req, res) => {
 });
 const wss = new WebSocket.Server({ server });
 
-const produtos = [
-    { nome: "Portátil", preco: 900 },
-    { nome: "Rato", preco: 20 },
-    { nome: "Monitor", preco: 200 }
+// ── Dados simulados da loja ───────────────────────────
+const PRODUTOS = [
+    { nome: 'Portátil ShopFlow Pro 15',   preco: 899.99  },
+    { nome: 'Portátil ShopFlow Ultra 13', preco: 1149.99 },
+    { nome: 'Portátil ShopFlow Gaming 17',preco: 1599.99 },
+    { nome: 'Rato Ergonómico SF-M1',       preco: 49.99   },
+    { nome: 'Teclado Mecânico SF-K2',      preco: 89.99   },
+    { nome: 'Headset SF-H1 Pro',           preco: 79.99   },
+    { nome: 'Webcam SF-W1 4K',             preco: 129.99  },
+    { nome: 'Monitor SF-D27 QHD',          preco: 349.99  },
+    { nome: 'Hub USB-C SF-U1 7-em-1',      preco: 39.99   },
+    { nome: 'Mochila SF-B1 15.6"',         preco: 59.99   },
 ];
 
 function gerarVenda() {
