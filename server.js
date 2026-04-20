@@ -5,6 +5,7 @@ const server = http.createServer((req, res) => {
     res.writeHead(200, { 'Content-Type': 'text/plain' });
     res.end('Servidor ShopFlow activo');
 });
+
 const wss = new WebSocket.Server({ server });
 
 // ── Dados simulados da loja ───────────────────────────
@@ -42,4 +43,7 @@ setInterval(() => {
     broadcast(gerarVenda());
 }, 4000);
 
-server.listen(process.env.PORT || 3000);
+// 🔥 CORREÇÃO AQUI
+server.listen(process.env.PORT || 3000, () => {
+    console.log('Servidor a correr');
+});
