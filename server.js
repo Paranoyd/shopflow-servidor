@@ -1,56 +1,56 @@
 /* ═══════════════════════════════════════════════════
-   ShopFlow — Servidor WebSocket (server.js)
-   Sessão 4: Gerador de vendas em tempo real
-   Corre no Render em: shopflow-servidor.onrender.com
-   ═══════════════════════════════════════════════════ */
-   
-   const ws = new WebSocket('wss://shopflow-servidor-ivqj.onrender.com/');
-   const WebSocket = require('ws');
-   const http      = require('http');
-    
-   // ── Servidor HTTP mínimo (obrigatório no Render) ─────
-   // O Render precisa de um servidor HTTP para manter o
-   // projecto activo. O WebSocket corre sobre este servidor.
-   const servidor = http.createServer((req, res) => {
-       res.writeHead(200, { 'Content-Type': 'text/plain' });
-       res.end('ShopFlow WebSocket Server — em funcionamento');
-   });
-    
-   // ── Servidor WebSocket ────────────────────────────────
-   const wss = new WebSocket.Server({ server: servidor });
-    
-   // ── Dados simulados da loja ───────────────────────────
-   const produtos = [
-       { nome: 'Portátil ShopFlow Pro 15',   preco: 899.99  },
-       { nome: 'Portátil ShopFlow Ultra 13', preco: 1149.99 },
-       { nome: 'Portátil ShopFlow Gaming 17',preco: 1599.99 },
-       { nome: 'Rato Ergonómico SF-M1',       preco: 49.99   },
-       { nome: 'Teclado Mecânico SF-K2',      preco: 89.99   },
-       { nome: 'Headset SF-H1 Pro',           preco: 79.99   },
-       { nome: 'Webcam SF-W1 4K',             preco: 129.99  },
-       { nome: 'Monitor SF-D27 QHD',          preco: 349.99  },
-       { nome: 'Hub USB-C SF-U1 7-em-1',      preco: 39.99   },
-       { nome: 'Mochila SF-B1 15.6"',         preco: 59.99   },
-   ];
-    
-   const LOCALIDADES = [
-       'Porto', 'Lisboa', 'Braga', 'Coimbra', 'Aveiro',
-       'Faro', 'Funchal', 'Setúbal', 'Évora', 'Viseu'
-   ];
-    
-   // ── Utilitários ───────────────────────────────────────
-   function aleatorio(min, max) {
-       return Math.floor(Math.random() * (max - min + 1)) + min;
-   }
-   
+ShopFlow — Servidor WebSocket (server.js)
+Sessão 4: Gerador de vendas em tempo real
+Corre no Render em: shopflow-servidor.onrender.com
+═══════════════════════════════════════════════════ */
+
+const ws = new WebSocket('wss://shopflow-servidor-ivqj.onrender.com/');
+const WebSocket = require('ws');
+const http      = require('http');
+
+// ── Servidor HTTP mínimo (obrigatório no Render) ─────
+// O Render precisa de um servidor HTTP para manter o
+// projecto activo. O WebSocket corre sobre este servidor.
+const servidor = http.createServer((req, res) => {
+   res.writeHead(200, { 'Content-Type': 'text/plain' });
+   res.end('ShopFlow WebSocket Server — em funcionamento');
+});
+ 
+// ── Servidor WebSocket ────────────────────────────────
+const wss = new WebSocket.Server({ server: servidor });
+ 
+// ── Dados simulados da loja ───────────────────────────
+const PRODUTOS = [
+    { nome: 'Portátil ShopFlow Pro 15',   preco: 899.99  },
+    { nome: 'Portátil ShopFlow Ultra 13', preco: 1149.99 },
+    { nome: 'Portátil ShopFlow Gaming 17',preco: 1599.99 },
+    { nome: 'Rato Ergonómico SF-M1',       preco: 49.99   },
+    { nome: 'Teclado Mecânico SF-K2',      preco: 89.99   },
+    { nome: 'Headset SF-H1 Pro',           preco: 79.99   },
+    { nome: 'Webcam SF-W1 4K',             preco: 129.99  },
+    { nome: 'Monitor SF-D27 QHD',          preco: 349.99  },
+    { nome: 'Hub USB-C SF-U1 7-em-1',      preco: 39.99   },
+    { nome: 'Mochila SF-B1 15.6"',         preco: 59.99   },
+];
+
+const LOCALIDADES = [
+    'Porto', 'Lisboa', 'Braga', 'Coimbra', 'Aveiro',
+    'Faro', 'Funchal', 'Setúbal', 'Évora', 'Viseu'
+];
+ 
+// ── Utilitários ───────────────────────────────────────
+function aleatorio(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 function elementoAleatorio(array) {
     return array[aleatorio(0, array.length - 1)];
 }
  
 /**
- * Gera uma venda simulada aleatória.
- * @returns {Object} - Dados da venda
- */
+* Gera uma venda simulada aleatória.
+* @returns {Object} - Dados da venda
+*/
 function gerarVenda() {
     const produto    = elementoAleatorio(PRODUTOS);
     const quantidade = aleatorio(1, 3);
