@@ -4,36 +4,36 @@
    Corre no Render em: shopflow-servidor.onrender.com
    ═══════════════════════════════════════════════════ */
    
-const ws = new WebSocket('wss://shopflow-servidor-ivqj.onrender.com/');
-const WebSocket = require('ws');
-const http = require('http');
-
-// ── Servidor HTTP mínimo (obrigatório no Render) ─────
+   const ws = new WebSocket('wss://shopflow-servidor-ivqj.onrender.com/');
+   const WebSocket = require('ws');
+   const http      = require('http');
+    
+   // ── Servidor HTTP mínimo (obrigatório no Render) ─────
    // O Render precisa de um servidor HTTP para manter o
    // projecto activo. O WebSocket corre sobre este servidor.
    const servidor = http.createServer((req, res) => {
-   res.writeHead(200, { 'Content-Type': 'text/plain' });
-   res.end('Servidor ShopFlow activo');
-});
-
-// ── Servidor WebSocket ────────────────────────────────
-   const wss = new WebSocket.Server({ server:servidor });
-
-// ── Dados simulados da loja ───────────────────────────
-const produtos = [
-   { nome: 'Portátil ShopFlow Pro 15',   preco: 899.99  },
-   { nome: 'Portátil ShopFlow Ultra 13', preco: 1149.99 },
+       res.writeHead(200, { 'Content-Type': 'text/plain' });
+       res.end('ShopFlow WebSocket Server — em funcionamento');
+   });
+    
+   // ── Servidor WebSocket ────────────────────────────────
+   const wss = new WebSocket.Server({ server: servidor });
+    
+   // ── Dados simulados da loja ───────────────────────────
+   const produtos = [
+       { nome: 'Portátil ShopFlow Pro 15',   preco: 899.99  },
+       { nome: 'Portátil ShopFlow Ultra 13', preco: 1149.99 },
        { nome: 'Portátil ShopFlow Gaming 17',preco: 1599.99 },
        { nome: 'Rato Ergonómico SF-M1',       preco: 49.99   },
        { nome: 'Teclado Mecânico SF-K2',      preco: 89.99   },
-   { nome: 'Headset SF-H1 Pro',           preco: 79.99   },
+       { nome: 'Headset SF-H1 Pro',           preco: 79.99   },
        { nome: 'Webcam SF-W1 4K',             preco: 129.99  },
        { nome: 'Monitor SF-D27 QHD',          preco: 349.99  },
        { nome: 'Hub USB-C SF-U1 7-em-1',      preco: 39.99   },
        { nome: 'Mochila SF-B1 15.6"',         preco: 59.99   },
-];
-
-const LOCALIDADES = [
+   ];
+    
+   const LOCALIDADES = [
        'Porto', 'Lisboa', 'Braga', 'Coimbra', 'Aveiro',
        'Faro', 'Funchal', 'Setúbal', 'Évora', 'Viseu'
    ];
@@ -52,22 +52,22 @@ function elementoAleatorio(array) {
  * @returns {Object} - Dados da venda
  */
 function gerarVenda() {
-   const produto    = elementoAleatorio(PRODUTOS);
+    const produto    = elementoAleatorio(PRODUTOS);
     const quantidade = aleatorio(1, 3);
     const localidade = elementoAleatorio(LOCALIDADES);
  
-   return {
-       tipo:       'venda',
+    return {
+        tipo:       'venda',
         id:         Date.now(),
-       produto:    produto.nome,
-       preco:      produto.preco,
+        produto:    produto.nome,
+        preco:      produto.preco,
         quantidade: quantidade,
         total:      parseFloat((produto.preco * quantidade).toFixed(2)),
         localidade: localidade,
         hora:       new Date().toLocaleTimeString('pt-PT'),
     };
 }
-
+ 
 // ── Lógica de difusão (broadcast) ────────────────────
 // Envia uma mensagem a TODOS os clientes ligados
 function broadcast(mensagem) {
@@ -78,7 +78,7 @@ function broadcast(mensagem) {
         }
     });
 }
-
+ 
 // ── Gestor de ligações de clientes ───────────────────
 wss.on('connection', (ws, pedido) => {
     const ip = pedido.socket.remoteAddress;
