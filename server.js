@@ -17,7 +17,7 @@ const http = require('http');
 });
 
 // ── Servidor WebSocket ────────────────────────────────
-   const wss = new WebSocket.Server({ server: servidor });
+   const wss = new WebSocket.Server({ server });
 
 // ── Dados simulados da loja ───────────────────────────
 const produtos = [
